@@ -1,0 +1,56 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+
+double calculateProfit(vector<pair<int,int>> &vec, int n , int &maxWeight)
+{
+    vector<pair<double,int>> ratio;
+    for(int i=0;i<n;i++)
+    {
+        double a = vec[i].second*1.0/vec[i].first*1.0;
+        ratio.push_back(make_pair(a,vec[i].first));
+    }
+    double profit = 0.0;
+    sort(ratio.rbegin(),ratio.rend());
+    int k = 0;
+    // for(auto x: ratio)
+    // {
+    //     cout<<x.first<<" "<<endl;
+    // }
+    while(maxWeight > 0 && k<n)
+    {
+        if(ratio[k].second<maxWeight)
+        {
+            profit += ratio[k].second*ratio[k].first*1.0;
+            maxWeight = maxWeight - ratio[k].second;
+            k++;
+        }
+        else
+        {
+            break;
+        }
+    }
+    if(maxWeight>0)
+    {
+        profit += maxWeight*ratio[k].first*1.0;
+    }
+    return profit;
+}
+
+int main() {
+   vector<pair<int,int>> vec;
+   int n;
+   cin>>n;
+   int maxWeight;
+   cin>>maxWeight;
+   int weight, profit;
+   for(int i=0;i<n;i++)
+   {
+       cin>>weight>>profit;
+       vec.push_back(make_pair(weight,profit));
+   }
+   double answer = calculateProfit(vec,n, maxWeight);
+//   cout<<maxWeight<<endl;
+  cout<<answer<<endl;
+}
